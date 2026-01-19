@@ -10,6 +10,8 @@ import { ErrorCategory, ErrorDomain, MastraError } from '../../error';
 import type { MastraLLMVNext } from '../../llm/model/model.loop';
 import type { TracingContext } from '../../observability';
 import type { RequestContext } from '../../request-context';
+import { isStandardSchemaWithJSON } from '../../schema/schema';
+import type { StandardSchemaWithJSON } from '../../schema/schema';
 import { ChunkFrom } from '../../stream';
 import type { ChunkType } from '../../stream';
 import { MastraAgentNetworkStream } from '../../stream/MastraAgentNetworkStream';
@@ -18,6 +20,18 @@ import { createStep, createWorkflow } from '../../workflows';
 import type { Step, SuspendOptions } from '../../workflows';
 import { zodToJsonSchema } from '../../zod-to-json';
 import { PRIMITIVE_TYPES } from '../types';
+
+/**
+ * Convert a schema (StandardSchemaWithJSON or Zod) to JSON Schema.
+ * Works with both StandardSchemaWithJSON types and raw Zod schemas.
+ */
+function schemaToJsonSchema(schema: StandardSchemaWithJSON | unknown): unknown {
+  if (isStandardSchemaWithJSON(schema)) {
+    return schema['~standard'].jsonSchema.output({ target: 'draft-07' });
+  }
+
+  throw new Error('We could not convert the schema to a JSONSChema');
+}
 import type { CompletionConfig, CompletionContext } from './validation';
 import {
   runValidation,
@@ -103,7 +117,7 @@ export async function getRoutingAgent({
   const workflowList = Object.entries(workflowsToUse)
     .map(([name, workflow]) => {
       return ` - **${name}**: ${workflow.description}, input schema: ${JSON.stringify(
-        zodToJsonSchema(workflow.inputSchema ?? z.object({})),
+        schemaToJsonSchema(workflow.inputSchema ?? z.object({})),
       )}`;
     })
     .join('\n');
@@ -113,7 +127,7 @@ export async function getRoutingAgent({
     .map(([name, tool]) => {
       // Use 'in' check for type narrowing, then nullish coalescing for undefined values
       const inputSchema = 'inputSchema' in tool ? (tool.inputSchema ?? z.object({})) : z.object({});
-      return ` - **${name}**: ${tool.description}, input schema: ${JSON.stringify(zodToJsonSchema(inputSchema))}`;
+      return ` - **${name}**: ${tool.description}, input schema: ${JSON.stringify(schemaToJsonSchema(inputSchema))}`;
     })
     .join('\n');
 
@@ -976,7 +990,7 @@ export async function createNetworkLoop({
         }
         const wflowStepSchema = (wflowStep as Step<any, any, any, any, any, any>)?.resumeSchema;
         if (wflowStepSchema) {
-          resumeSchema = JSON.stringify(zodToJsonSchema(wflowStepSchema));
+          resumeSchema = JSON.stringify(schemaToJsonSchema(wflowStepSchema));
         } else {
           resumeSchema = '';
         }
@@ -1222,7 +1236,7 @@ export async function createNetworkLoop({
                   .describe(
                     'Controls if the tool call is approved or not, should be true when approved and false when declined',
                   ),
-              }),
+              }) as any,
             ),
           );
           await memory?.saveMessages({
@@ -1386,7 +1400,7 @@ export async function createNetworkLoop({
                             type: 'suspension',
                             resumeSchema:
                               suspendOptions?.resumeSchema ??
-                              JSON.stringify(zodToJsonSchema((tool as any).resumeSchema)),
+                              JSON.stringify(schemaToJsonSchema((tool as any).resumeSchema)),
                             runId,
                             primitiveType: 'tool',
                             primitiveId: inputData.primitiveId,
@@ -1407,7 +1421,7 @@ export async function createNetworkLoop({
                   toolCallId,
                   args: inputDataToUse,
                   resumeSchema:
-                    suspendOptions?.resumeSchema ?? JSON.stringify(zodToJsonSchema((tool as any).resumeSchema)),
+                    suspendOptions?.resumeSchema ?? JSON.stringify(schemaToJsonSchema((tool as any).resumeSchema)),
                   suspendPayload,
                   runId,
                   selectionReason: inputData.selectionReason,
