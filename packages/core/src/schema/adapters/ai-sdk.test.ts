@@ -1,5 +1,4 @@
 import { jsonSchema } from '@internal/ai-sdk-v5';
-import type { Schema } from '@internal/ai-sdk-v5';
 import { describe, it, expect } from 'vitest';
 import { isStandardSchemaWithJSON } from '../standard-schema';
 import { toStandardSchema } from './ai-sdk';
