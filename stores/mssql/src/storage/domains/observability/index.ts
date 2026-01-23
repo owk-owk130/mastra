@@ -418,7 +418,8 @@ export class ObservabilityMSSQL extends ObservabilityStorage {
   async listTraces(args: ListTracesArgs): Promise<{ pagination: PaginationInfo; spans: SpanRecord[] }> {
     // Parse args through schema to apply defaults
     const { filters, pagination, orderBy } = listTracesArgsSchema.parse(args);
-    const { page, perPage } = pagination;
+    const page = pagination?.page ?? 0;
+    const perPage = pagination?.perPage ?? 10;
 
     const tableName = getTableName({
       indexName: TABLE_SPANS,
@@ -612,8 +613,8 @@ export class ObservabilityMSSQL extends ObservabilityStorage {
 
       const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
 
-      const sortField = orderBy.field;
-      const sortDirection = orderBy.direction;
+      const sortField = orderBy?.field ?? 'startedAt';
+      const sortDirection = orderBy?.direction ?? 'DESC';
 
       // Get total count
       const countRequest = this.pool.request();
