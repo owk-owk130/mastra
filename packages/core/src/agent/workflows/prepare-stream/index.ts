@@ -125,6 +125,7 @@ export function createPrepareStreamWorkflow<OUTPUT = undefined>({
     outputSchema: z.instanceof(MastraModelOutput<OUTPUT>),
     steps: [prepareToolsStep, prepareMemoryStep, streamStep],
     options: {
+      
       tracingPolicy: {
         internal: InternalSpans.WORKFLOW,
       },
