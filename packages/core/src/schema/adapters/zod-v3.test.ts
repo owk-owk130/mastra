@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { z } from 'zod-v3';
+import { z } from 'zod/v3';
 import { toStandardSchema } from './zod-v3';
 
 describe('zod-v3 standard-schema adapter', () => {
