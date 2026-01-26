@@ -1,5 +1,74 @@
 # @mastra/rag
 
+## 2.1.0-alpha.0
+
+### Minor Changes
+
+- Added support for 20 additional languages in code chunking ([#12154](https://github.com/mastra-ai/mastra/pull/12154))
+
+  Extended RecursiveCharacterTransformer to support all languages defined in the Language enum. Previously, only 6 languages were supported (CPP, C, TS, MARKDOWN, LATEX, PHP), causing runtime errors for other defined languages.
+
+  **Newly supported languages:**
+  - GO, JAVA, KOTLIN, JS, PYTHON, RUBY, RUST, SCALA, SWIFT (popular programming languages)
+  - HTML, SOL (Solidity), CSHARP, COBOL, LUA, PERL, HASKELL, ELIXIR, POWERSHELL (additional languages)
+  - PROTO (Protocol Buffers), RST (reStructuredText) (data/documentation formats)
+
+  Each language has been configured with appropriate separators based on its syntax patterns (modules, classes, functions, control structures) to enable semantic code chunking.
+
+  **Before:**
+
+  ```typescript
+  import { RecursiveCharacterTransformer, Language } from '@mastra/rag';
+
+  // These would all throw "Language X is not supported!" errors
+  const goTransformer = RecursiveCharacterTransformer.fromLanguage(Language.GO);
+  const pythonTransformer = RecursiveCharacterTransformer.fromLanguage(Language.PYTHON);
+  const rustTransformer = RecursiveCharacterTransformer.fromLanguage(Language.RUST);
+  ```
+
+  **After:**
+
+  ```typescript
+  import { RecursiveCharacterTransformer, Language } from '@mastra/rag';
+
+  // All languages now work seamlessly
+  const goTransformer = RecursiveCharacterTransformer.fromLanguage(Language.GO);
+  const goChunks = goTransformer.transform(goCodeDocument);
+
+  const pythonTransformer = RecursiveCharacterTransformer.fromLanguage(Language.PYTHON);
+  const pythonChunks = pythonTransformer.transform(pythonCodeDocument);
+
+  const rustTransformer = RecursiveCharacterTransformer.fromLanguage(Language.RUST);
+  const rustChunks = rustTransformer.transform(rustCodeDocument);
+  // All languages in the Language enum are now fully supported
+  ```
+
+### Patch Changes
+
+- Add support for PHP in Language enum
+  ([#12124](https://github.com/mastra-ai/mastra/pull/12124))
+  Previously, the Language enum defined PHP, but it was not supported in the `getSeparatorsForLanguage` method. This caused runtime errors when trying to use PHP for code chunking.
+  This change adds proper separator definitions for PHP, ensuring that PHP defined in the Language enum is now fully supported. PHP has been configured with appropriate separators based on its syntax and common programming patterns (classes, functions, control structures, etc.).
+  **Before:**
+  ```typescript
+  import { RecursiveCharacterTransformer, Language } from '@mastra/rag';
+
+  const transformer = RecursiveCharacterTransformer.fromLanguage(Language.PHP);
+  const chunks = transformer.transform(phpCodeDocument);
+  // Throws: "Language PHP is not supported!"
+  ```
+  **After:**
+  ```typescript
+  import { RecursiveCharacterTransformer, Language } from '@mastra/rag';
+
+  const transformer = RecursiveCharacterTransformer.fromLanguage(Language.PHP);
+  const chunks = transformer.transform(phpCodeDocument);
+  // Successfully chunks PHP code at namespace, class, function boundaries
+  ```
+  Fixes the issue where using `Language.PHP` would throw "Language PHP is not supported!" error.
+- Updated dependencies [[`90fc0e5`](https://github.com/mastra-ai/mastra/commit/90fc0e5717cb280c2d4acf4f0410b510bb4c0a72), [`1cf5d2e`](https://github.com/mastra-ai/mastra/commit/1cf5d2ea1b085be23e34fb506c80c80a4e6d9c2b), [`3efbe5a`](https://github.com/mastra-ai/mastra/commit/3efbe5ae20864c4f3143457f4f3ee7dc2fa5ca76), [`bc9fa00`](https://github.com/mastra-ai/mastra/commit/bc9fa00859c5c4a796d53a0a5cae46ab4a3072e4), [`90fc0e5`](https://github.com/mastra-ai/mastra/commit/90fc0e5717cb280c2d4acf4f0410b510bb4c0a72)]:
+  - @mastra/core@1.1.0-alpha.0
+
 ## 2.0.0
 
 ### Major Changes

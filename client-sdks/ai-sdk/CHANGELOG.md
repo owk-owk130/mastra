@@ -1,5 +1,18 @@
 # @mastra/ai-sdk
 
+## 1.0.3-alpha.0
+
+### Patch Changes
+
+- fix(ai-sdk): import ReadableStream and TransformStream from node:stream/web to fix TypeScript async iterator errors ([#12159](https://github.com/mastra-ai/mastra/pull/12159))
+
+  Fixed TypeScript build errors when using toAISdkStream() with for await...of loops. The function now explicitly imports ReadableStream and TransformStream from 'node:stream/web', ensuring the Node.js types (which include Symbol.asyncIterator support) are used instead of global types that may not have async iterator support in all TypeScript configurations.
+
+  This resolves issue #11884 where users encountered the error: "Type 'ReadableStream<InferUIMessageChunk<UIMessage>>' must have a '[Symbol.asyncIterator]()' method that returns an async iterator."
+
+- Updated dependencies [[`90fc0e5`](https://github.com/mastra-ai/mastra/commit/90fc0e5717cb280c2d4acf4f0410b510bb4c0a72), [`1cf5d2e`](https://github.com/mastra-ai/mastra/commit/1cf5d2ea1b085be23e34fb506c80c80a4e6d9c2b), [`3efbe5a`](https://github.com/mastra-ai/mastra/commit/3efbe5ae20864c4f3143457f4f3ee7dc2fa5ca76), [`bc9fa00`](https://github.com/mastra-ai/mastra/commit/bc9fa00859c5c4a796d53a0a5cae46ab4a3072e4), [`90fc0e5`](https://github.com/mastra-ai/mastra/commit/90fc0e5717cb280c2d4acf4f0410b510bb4c0a72)]:
+  - @mastra/core@1.1.0-alpha.0
+
 ## 1.0.2
 
 ### Patch Changes

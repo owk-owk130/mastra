@@ -1,5 +1,90 @@
 # @mastra/core
 
+## 1.1.0-alpha.0
+
+### Minor Changes
+
+- Added dynamic agent management with CRUD operations and version tracking ([#12038](https://github.com/mastra-ai/mastra/pull/12038))
+
+  **New Features:**
+  - Create, edit, and delete agents directly from the Mastra Studio UI
+  - Full version history for agents with compare and restore capabilities
+  - Visual diff viewer to compare agent configurations across versions
+  - Agent creation modal with comprehensive configuration options (model selection, instructions, tools, workflows, sub-agents, memory)
+  - AI-powered instruction enhancement
+
+  **Storage:**
+  - New storage interfaces for stored agents and agent versions
+  - PostgreSQL, LibSQL, and MongoDB implementations included
+  - In-memory storage for development and testing
+
+  **API:**
+  - RESTful endpoints for agent CRUD operations
+  - Version management endpoints (create, list, activate, restore, delete, compare)
+  - Automatic versioning on agent updates when enabled
+
+  **Client SDK:**
+  - JavaScript client with full support for stored agents and versions
+  - Type-safe methods for all CRUD and version operations
+
+  **Usage Example:**
+
+  ```typescript
+  // Server-side: Configure storage
+  import { Mastra } from '@mastra/core';
+  import { PgAgentsStorage } from '@mastra/pg';
+
+  const mastra = new Mastra({
+    agents: { agentOne },
+    storage: {
+      agents: new PgAgentsStorage({
+        connectionString: process.env.DATABASE_URL,
+      }),
+    },
+  });
+
+  // Client-side: Use the SDK
+  import { MastraClient } from '@mastra/client-js';
+
+  const client = new MastraClient({ baseUrl: 'http://localhost:3000' });
+
+  // Create a stored agent
+  const agent = await client.createStoredAgent({
+    name: 'Customer Support Agent',
+    description: 'Handles customer inquiries',
+    model: { provider: 'ANTHROPIC', name: 'claude-sonnet-4-5' },
+    instructions: 'You are a helpful customer support agent...',
+    tools: ['search', 'email'],
+  });
+
+  // Create a version snapshot
+  await client.storedAgent(agent.id).createVersion({
+    name: 'v1.0 - Initial release',
+    changeMessage: 'First production version',
+  });
+
+  // Compare versions
+  const diff = await client.storedAgent(agent.id).compareVersions('version-1', 'version-2');
+  ```
+
+  **Why:**
+  This feature enables teams to manage agents dynamically without code changes, making it easier to iterate on agent configurations and maintain a complete audit trail of changes.
+
+### Patch Changes
+
+- dependencies updates: ([#10184](https://github.com/mastra-ai/mastra/pull/10184))
+  - Updated dependency [`@isaacs/ttlcache@^2.1.4` ↗︎](https://www.npmjs.com/package/@isaacs/ttlcache/v/2.1.4) (from `^1.4.1`, in `dependencies`)
+
+- Update provider registry and model documentation with latest models and providers ([`1cf5d2e`](https://github.com/mastra-ai/mastra/commit/1cf5d2ea1b085be23e34fb506c80c80a4e6d9c2b))
+
+- Fixed network mode not applying user-configured input/output processors (like token limiters) to the routing agent. This caused unbounded context growth during network iterations. ([#12074](https://github.com/mastra-ai/mastra/pull/12074))
+
+  User-configured processors are now correctly passed to the routing agent, while memory-derived processors (which could interfere with routing logic) are excluded.
+
+  Fixes #12016
+
+- Update @isaacs/ttlcache to v2 and fix import for v2 compatibility (changed from default to named export) ([#10184](https://github.com/mastra-ai/mastra/pull/10184))
+
 ## 1.0.4
 
 ## 1.0.4-alpha.0

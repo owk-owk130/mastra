@@ -1,5 +1,23 @@
 # @mastra/observability
 
+## 1.1.0-alpha.0
+
+### Minor Changes
+
+- Add tool approval tracing to spans for debugging ([#12171](https://github.com/mastra-ai/mastra/pull/12171))
+
+  Added the ability to see tool approval requests in traces for debugging purposes. When a tool requires approval, a `MODEL_CHUNK` span named `chunk: 'tool-call-approval'` is now created containing:
+  - The tool call ID and name for identification
+  - The arguments that need approval
+  - The resume schema defining the approval response format
+
+  This enables users to debug their system by seeing approval requests in traces, making it easier to understand the flow of tool approvals and their payloads.
+
+### Patch Changes
+
+- Updated dependencies [[`90fc0e5`](https://github.com/mastra-ai/mastra/commit/90fc0e5717cb280c2d4acf4f0410b510bb4c0a72), [`1cf5d2e`](https://github.com/mastra-ai/mastra/commit/1cf5d2ea1b085be23e34fb506c80c80a4e6d9c2b), [`3efbe5a`](https://github.com/mastra-ai/mastra/commit/3efbe5ae20864c4f3143457f4f3ee7dc2fa5ca76), [`bc9fa00`](https://github.com/mastra-ai/mastra/commit/bc9fa00859c5c4a796d53a0a5cae46ab4a3072e4), [`90fc0e5`](https://github.com/mastra-ai/mastra/commit/90fc0e5717cb280c2d4acf4f0410b510bb4c0a72)]:
+  - @mastra/core@1.1.0-alpha.0
+
 ## 1.0.0
 
 ### Major Changes

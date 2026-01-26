@@ -1,5 +1,95 @@
 # @mastra/playground-ui
 
+## 8.0.0-alpha.0
+
+### Minor Changes
+
+- Added dynamic agent management with CRUD operations and version tracking ([#12038](https://github.com/mastra-ai/mastra/pull/12038))
+
+  **New Features:**
+  - Create, edit, and delete agents directly from the Mastra Studio UI
+  - Full version history for agents with compare and restore capabilities
+  - Visual diff viewer to compare agent configurations across versions
+  - Agent creation modal with comprehensive configuration options (model selection, instructions, tools, workflows, sub-agents, memory)
+  - AI-powered instruction enhancement
+
+  **Storage:**
+  - New storage interfaces for stored agents and agent versions
+  - PostgreSQL, LibSQL, and MongoDB implementations included
+  - In-memory storage for development and testing
+
+  **API:**
+  - RESTful endpoints for agent CRUD operations
+  - Version management endpoints (create, list, activate, restore, delete, compare)
+  - Automatic versioning on agent updates when enabled
+
+  **Client SDK:**
+  - JavaScript client with full support for stored agents and versions
+  - Type-safe methods for all CRUD and version operations
+
+  **Usage Example:**
+
+  ```typescript
+  // Server-side: Configure storage
+  import { Mastra } from '@mastra/core';
+  import { PgAgentsStorage } from '@mastra/pg';
+
+  const mastra = new Mastra({
+    agents: { agentOne },
+    storage: {
+      agents: new PgAgentsStorage({
+        connectionString: process.env.DATABASE_URL,
+      }),
+    },
+  });
+
+  // Client-side: Use the SDK
+  import { MastraClient } from '@mastra/client-js';
+
+  const client = new MastraClient({ baseUrl: 'http://localhost:3000' });
+
+  // Create a stored agent
+  const agent = await client.createStoredAgent({
+    name: 'Customer Support Agent',
+    description: 'Handles customer inquiries',
+    model: { provider: 'ANTHROPIC', name: 'claude-sonnet-4-5' },
+    instructions: 'You are a helpful customer support agent...',
+    tools: ['search', 'email'],
+  });
+
+  // Create a version snapshot
+  await client.storedAgent(agent.id).createVersion({
+    name: 'v1.0 - Initial release',
+    changeMessage: 'First production version',
+  });
+
+  // Compare versions
+  const diff = await client.storedAgent(agent.id).compareVersions('version-1', 'version-2');
+  ```
+
+  **Why:**
+  This feature enables teams to manage agents dynamically without code changes, making it easier to iterate on agent configurations and maintain a complete audit trail of changes.
+
+- Bump playground-ui to v7.1.0 ([#12186](https://github.com/mastra-ai/mastra/pull/12186))
+
+### Patch Changes
+
+- Fix link to evals documentation ([#12122](https://github.com/mastra-ai/mastra/pull/12122))
+
+- Fixed legacy agent runs so each request now gets a unique run ID, improving trace readability in observability tools. ([#12229](https://github.com/mastra-ai/mastra/pull/12229))
+
+- Use useExecuteWorkflow hook from @mastra/react instead of local implementation in playground-ui ([#12138](https://github.com/mastra-ai/mastra/pull/12138))
+
+- Added useCancelWorkflowRun hook to @mastra/react for canceling workflow runs. This hook was previously only available internally in playground-ui and is now exported for use in custom applications. ([#12142](https://github.com/mastra-ai/mastra/pull/12142))
+
+- Added useStreamWorkflow hook to @mastra/react for streaming workflow execution. This hook supports streaming, observing, resuming, and time-traveling workflows. It accepts tracingOptions and onError as parameters for better customization. ([#12151](https://github.com/mastra-ai/mastra/pull/12151))
+
+- Updated dependencies [[`90fc0e5`](https://github.com/mastra-ai/mastra/commit/90fc0e5717cb280c2d4acf4f0410b510bb4c0a72), [`1cf5d2e`](https://github.com/mastra-ai/mastra/commit/1cf5d2ea1b085be23e34fb506c80c80a4e6d9c2b), [`3efbe5a`](https://github.com/mastra-ai/mastra/commit/3efbe5ae20864c4f3143457f4f3ee7dc2fa5ca76), [`70237c5`](https://github.com/mastra-ai/mastra/commit/70237c51e9e92332eb55d6e3c6dd7f1ea8435d26), [`910367c`](https://github.com/mastra-ai/mastra/commit/910367ce8f89905bd1d958ccfdf0ba1e713696aa), [`0caf854`](https://github.com/mastra-ai/mastra/commit/0caf854cdeea7bd524e5149de9df56e862be4bc9), [`1d70a4a`](https://github.com/mastra-ai/mastra/commit/1d70a4a6d53c3f2571544dc0767f2c5f4e445ba0), [`bc9fa00`](https://github.com/mastra-ai/mastra/commit/bc9fa00859c5c4a796d53a0a5cae46ab4a3072e4), [`90fc0e5`](https://github.com/mastra-ai/mastra/commit/90fc0e5717cb280c2d4acf4f0410b510bb4c0a72)]:
+  - @mastra/core@1.1.0-alpha.0
+  - @mastra/client-js@1.1.0-alpha.0
+  - @mastra/react@0.2.0-alpha.0
+  - @mastra/ai-sdk@1.0.3-alpha.0
+
 ## 7.0.1
 
 ### Patch Changes

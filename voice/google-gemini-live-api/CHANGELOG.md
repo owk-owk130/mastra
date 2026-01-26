@@ -1,5 +1,14 @@
 # @mastra/voice-google-gemini-live
 
+## 0.11.1-alpha.0
+
+### Patch Changes
+
+- dependencies updates: ([#11645](https://github.com/mastra-ai/mastra/pull/11645))
+  - Updated dependency [`ws@^8.19.0` ↗︎](https://www.npmjs.com/package/ws/v/8.19.0) (from `^8.18.3`, in `dependencies`)
+- Updated dependencies [[`90fc0e5`](https://github.com/mastra-ai/mastra/commit/90fc0e5717cb280c2d4acf4f0410b510bb4c0a72), [`1cf5d2e`](https://github.com/mastra-ai/mastra/commit/1cf5d2ea1b085be23e34fb506c80c80a4e6d9c2b), [`3efbe5a`](https://github.com/mastra-ai/mastra/commit/3efbe5ae20864c4f3143457f4f3ee7dc2fa5ca76), [`bc9fa00`](https://github.com/mastra-ai/mastra/commit/bc9fa00859c5c4a796d53a0a5cae46ab4a3072e4), [`90fc0e5`](https://github.com/mastra-ai/mastra/commit/90fc0e5717cb280c2d4acf4f0410b510bb4c0a72)]:
+  - @mastra/core@1.1.0-alpha.0
+
 ## 0.11.0
 
 ### Minor Changes

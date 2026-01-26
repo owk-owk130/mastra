@@ -1,5 +1,19 @@
 # @internal/playground
 
+## 1.0.2-alpha.0
+
+### Patch Changes
+
+- Fix link to evals documentation ([#12122](https://github.com/mastra-ai/mastra/pull/12122))
+
+- Fixed the swagger-ui link to use a relative path instead of localhost. ([#12120](https://github.com/mastra-ai/mastra/pull/12120))
+
+- Updated dependencies [[`90fc0e5`](https://github.com/mastra-ai/mastra/commit/90fc0e5717cb280c2d4acf4f0410b510bb4c0a72), [`1cf5d2e`](https://github.com/mastra-ai/mastra/commit/1cf5d2ea1b085be23e34fb506c80c80a4e6d9c2b), [`66d716d`](https://github.com/mastra-ai/mastra/commit/66d716d9ca42dd516cfd59155ab43f9561a43cc8), [`3efbe5a`](https://github.com/mastra-ai/mastra/commit/3efbe5ae20864c4f3143457f4f3ee7dc2fa5ca76), [`45876f3`](https://github.com/mastra-ai/mastra/commit/45876f3bcb1a3905b05f35abfb117535ddba1070), [`5d26244`](https://github.com/mastra-ai/mastra/commit/5d26244ea09f7495242b666077b8eb702cdaf748), [`70237c5`](https://github.com/mastra-ai/mastra/commit/70237c51e9e92332eb55d6e3c6dd7f1ea8435d26), [`910367c`](https://github.com/mastra-ai/mastra/commit/910367ce8f89905bd1d958ccfdf0ba1e713696aa), [`0caf854`](https://github.com/mastra-ai/mastra/commit/0caf854cdeea7bd524e5149de9df56e862be4bc9), [`bc9fa00`](https://github.com/mastra-ai/mastra/commit/bc9fa00859c5c4a796d53a0a5cae46ab4a3072e4), [`90fc0e5`](https://github.com/mastra-ai/mastra/commit/90fc0e5717cb280c2d4acf4f0410b510bb4c0a72)]:
+  - @mastra/core@1.1.0-alpha.0
+  - @mastra/playground-ui@8.0.0-alpha.0
+  - @mastra/client-js@1.1.0-alpha.0
+  - @mastra/react@0.2.0-alpha.0
+
 ## 1.0.1
 
 ### Patch Changes

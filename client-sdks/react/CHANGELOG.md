@@ -1,5 +1,20 @@
 # @mastra/react
 
+## 0.2.0-alpha.0
+
+### Minor Changes
+
+- Added useCancelWorkflowRun hook to @mastra/react for canceling workflow runs. This hook was previously only available internally in playground-ui and is now exported for use in custom applications. ([#12142](https://github.com/mastra-ai/mastra/pull/12142))
+
+- Added useStreamWorkflow hook to @mastra/react for streaming workflow execution. This hook supports streaming, observing, resuming, and time-traveling workflows. It accepts tracingOptions and onError as parameters for better customization. ([#12151](https://github.com/mastra-ai/mastra/pull/12151))
+
+### Patch Changes
+
+- Use useExecuteWorkflow hook from @mastra/react instead of local implementation in playground-ui ([#12138](https://github.com/mastra-ai/mastra/pull/12138))
+
+- Updated dependencies [[`3efbe5a`](https://github.com/mastra-ai/mastra/commit/3efbe5ae20864c4f3143457f4f3ee7dc2fa5ca76)]:
+  - @mastra/client-js@1.1.0-alpha.0
+
 ## 0.1.1
 
 ### Patch Changes

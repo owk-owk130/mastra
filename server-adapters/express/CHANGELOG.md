@@ -1,5 +1,19 @@
 # @mastra/express
 
+## 1.1.0-alpha.0
+
+### Minor Changes
+
+- Added explicit auth control to built-in API routes. All routes now have a requiresAuth property that determines whether authentication is required. This eliminates route matching overhead and makes auth requirements clear in route definitions. Routes default to requiresAuth: true (protected) for security. To make a route public, set requiresAuth: false in the route definition. ([#12153](https://github.com/mastra-ai/mastra/pull/12153))
+
+### Patch Changes
+
+- Fixed route prefix behavior to correctly replace the default /api prefix instead of prepending to it. Previously, setting prefix: '/api/v2' resulted in routes at /api/v2/api/agents. Now routes correctly appear at /api/v2/agents as documented. ([#12221](https://github.com/mastra-ai/mastra/pull/12221))
+
+- Updated dependencies [[`90fc0e5`](https://github.com/mastra-ai/mastra/commit/90fc0e5717cb280c2d4acf4f0410b510bb4c0a72), [`1cf5d2e`](https://github.com/mastra-ai/mastra/commit/1cf5d2ea1b085be23e34fb506c80c80a4e6d9c2b), [`c0c15b9`](https://github.com/mastra-ai/mastra/commit/c0c15b90f177c54d7d7d24ea9c0efb1d22c31d1e), [`3efbe5a`](https://github.com/mastra-ai/mastra/commit/3efbe5ae20864c4f3143457f4f3ee7dc2fa5ca76), [`a646090`](https://github.com/mastra-ai/mastra/commit/a646090808ed6df5bfc379fd0672c9d15d6ae905), [`56d4097`](https://github.com/mastra-ai/mastra/commit/56d4097ccdb6fada9963eb50e65d67a071d45fd1), [`bc9fa00`](https://github.com/mastra-ai/mastra/commit/bc9fa00859c5c4a796d53a0a5cae46ab4a3072e4), [`90fc0e5`](https://github.com/mastra-ai/mastra/commit/90fc0e5717cb280c2d4acf4f0410b510bb4c0a72), [`b94d043`](https://github.com/mastra-ai/mastra/commit/b94d0438ce34101b0279a8e5b1ce8d229b7b0968)]:
+  - @mastra/core@1.1.0-alpha.0
+  - @mastra/server@1.1.0-alpha.0
+
 ## 1.0.1
 
 ### Patch Changes
